@@ -3,7 +3,7 @@
  ### You can list your catalogs by calling this url:
 
 ```
-[kuldeep.d.sharma@GOEDCKDVTCI01 ~]$  curl -u test1 -s -X GET https://goep.docker.reg/v2/_catalog | python -mjson.tool
+[kuldeep.sharma@testdvkreg01 ~]$  curl -u test1 -s -X GET https://test.docker.reg/v2/_catalog | python -mjson.tool
 Enter host password for user 'test1':
 {
     "repositories": [
@@ -19,7 +19,7 @@ Enter host password for user 'test1':
 
 ### Response will be in the following format:
 ```
-[kuldeep.d.sharma@GOEDCKDVTCI01 repositories]$ curl -s -u test1 -X GET https://goep.docker.reg/v2/ubuntu/tags/list | python -m json.tool
+[kuldeep.sharma@testdvkreg01 repositories]$ curl -s -u test1 -X GET https://test.docker.reg/v2/ubuntu/tags/list | python -m json.tool
 Enter host password for user 'test1':
 {
     "name": "ubuntu",
@@ -32,7 +32,7 @@ Enter host password for user 'test1':
 ### You can run this command in docker registry container or directly on server if using docker-distributuion:
 
 ```
-[kuldeep.d.sharma@GOEDCKDVTCI01 ~]$ curl -u test1:test1 -v  -H "Accept: application/vnd.docker.distribution.manifest.v2+json" -X GET https://goep.docker.reg/v2/ubuntu/manifests/1.0  2>&1 | grep Docker-Content-Digest | awk '{print $3}'
+[kuldeep.sharma@testdvkreg01 ~]$ curl -u test1:test1 -v  -H "Accept: application/vnd.docker.distribution.manifest.v2+json" -X GET https://test.docker.reg/v2/ubuntu/manifests/1.0  2>&1 | grep Docker-Content-Digest | awk '{print $3}'
 ```
 
 ### Responce will as below:
@@ -41,25 +41,25 @@ Enter host password for user 'test1':
 
 ### Run the command given below with manifest value:
 ```
-[kuldeep.d.sharma@GOEDCKDVTCI01 ~]$ curl -u test1:test1 -v --silent -H "Accept: application/vnd.docker.distribution.manifest.v2+json" -X DELETE https://goep.docker.reg/v2/ubuntu/manifests/sha256:60ae15e1b39cc0dd660d7433af7860901b2a3d4d72bd206d5bf1ed7fd13ee07c
-* About to connect() to goep.docker.reg port 443 (#0)
+[kuldeep.sharma@testdvkreg01 ~]$ curl -u test1:test1 -v --silent -H "Accept: application/vnd.docker.distribution.manifest.v2+json" -X DELETE https://test.docker.reg/v2/ubuntu/manifests/sha256:60ae15e1b39cc0dd660d7433af7860901b2a3d4d72bd206d5bf1ed7fd13ee07c
+* About to connect() to test.docker.reg port 443 (#0)
 *   Trying 10.49.31.63...
-* Connected to goep.docker.reg (10.49.31.63) port 443 (#0)
+* Connected to test.docker.reg (10.49.31.63) port 443 (#0)
 * Initializing NSS with certpath: sql:/etc/pki/nssdb
 *   CAfile: /etc/pki/tls/certs/ca-bundle.crt
   CApath: none
 * SSL connection using TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 * Server certificate:
-* 	subject: CN=goep.docker.reg,O=Default Company Ltd,L=Default City,C=XX
+* 	subject: CN=test.docker.reg,O=Default Company Ltd,L=Default City,C=XX
 * 	start date: Dec 18 15:10:57 2017 GMT
 * 	expire date: Dec 16 15:10:57 2027 GMT
-* 	common name: goep.docker.reg
+* 	common name: test.docker.reg
 * 	issuer: O=Default Company Ltd,L=Default City,C=XX
 * Server auth using Basic with user 'test1'
 > DELETE /v2/ubuntu/manifests/sha256:60ae15e1b39cc0dd660d7433af7860901b2a3d4d72bd206d5bf1ed7fd13ee07c HTTP/1.1
 > Authorization: Basic dGVzdDE6dGVzdDE=
 > User-Agent: curl/7.29.0
-> Host: goep.docker.reg
+> Host: test.docker.reg
 > Accept: application/vnd.docker.distribution.manifest.v2+json
 > 
 < HTTP/1.1 202 Accepted
@@ -72,7 +72,7 @@ Enter host password for user 'test1':
 < X-Content-Type-Options: nosniff
 < Docker-Distribution-Api-Version: registry/2.0
 < 
-* Connection #0 to host goep.docker.reg left intact
+* Connection #0 to host test.docker.reg left intact
 
 ```
 
@@ -80,8 +80,8 @@ Enter host password for user 'test1':
 ### Run this command in your docker registy container:
 
 ```
-[kuldeep.d.sharma@GOEDCKDVTCI01 repositories]$ sudo /bin/registry garbage-collect  /etc/docker-distribution/registry/config.yml
-[sudo] password for kuldeep.d.sharma: 
+[kuldeep.sharma@testdvkreg01 repositories]$ sudo /bin/registry garbage-collect  /etc/docker-distribution/registry/config.yml
+[sudo] password for kuldeep.sharma: 
 DEBU[0000] using "text" logging formatter               
 DEBU[0000] filesystem.List("/docker/registry/v2/repositories")  environment=poc go.version=go1.9beta2 instance.id=d08c1fdc-1bc7-40c6-b23b-e4774b8264c6 service=registry trace.duration=54.778µs trace.file=/builddir/build/BUILD/distribution-48294d928ced5dd9b378f7fd7c6f5da3ff3f2c89/src/github.com/docker/distribution/registry/storage/driver/base/base.go trace.func=github.com/docker/distribution/registry/storage/driver/base.(*Base).List trace.id=ca877d80-eb8f-4663-b69b-a5885a788b80 trace.line=150
 .
@@ -114,7 +114,7 @@ DEBU[0000] (*schema2ManifestHandler).Unmarshal           environment=poc go.vers
 .
 .
 DEBU[0000] filesystem.Delete("/docker/registry/v2/blobs/sha256/d3/d3d0e57c2b4175923a167fc86f95f6b0a78d571620986b1e0db83c4e58949b7a")  environment=poc go.version=go1.9beta2 instance.id=d08c1fdc-1bc7-40c6-b23b-e4774b8264c6 service=registry trace.duration=70.813µs trace.file=/builddir/build/BUILD/distribution-48294d928ced5dd9b378f7fd7c6f5da3ff3f2c89/src/github.com/docker/distribution/registry/storage/driver/base/base.go trace.func=github.com/docker/distribution/registry/storage/driver/base.(*Base).Delete trace.id=0673047a-b17a-4c4c-a2f6-a6ae9525b8b1 trace.line=177
-[kuldeep.d.sharma@GOEDCKDVTCI01 repositories]$ 
+[kuldeep.sharma@testdvkreg01 repositories]$ 
 ```
 
 
