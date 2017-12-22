@@ -43,5 +43,6 @@ Tags List for Docker Repository ubuntu:
 ```
 
 ## 2. [Delete docker repository from Private registry](https://github.com/deepforu47/docker/blob/master/Delete%20docker%20repository%20from%20Private%20registry.md)
-       *Detail steps for deleting the repository from private docker registry*
+ 
+   *Detail steps for deleting the repository from private docker registry*
         
