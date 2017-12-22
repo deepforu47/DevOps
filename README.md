@@ -5,6 +5,15 @@
 
 Adding script `docker-tag-list.sh` which you can use to get list of available tags on all repositories.
 * Run script as `./docker-tag-list.sh -u username`  // Here I am assuming that you have authentication enabled for git repository.
+* Script Usages
+```
+~]$  ./docker-tag-list.sh 
+
+docker repo tags   --  list all tags for all available Docker images on a remote registry.
+
+EXAMPLE: 
+    - ./docker-tag-list.sh -u user
+```
 * Script Output
 ```
 ~]$  ./docker-tag-list.sh testuser
