@@ -1,8 +1,9 @@
 # Docker Related
 
 
-1. Display list of tags for all the repositories hosted on private docker registry]
-2. Delete docker repository from Private registry
+1. Display list of tags for all the repositories hosted on private docker registry.
+2. Delete docker repository from Private registry.
+
  ## 1. [Display list of tags for all the repositories hosted on private docker registry](https://github.com/deepforu47/docker/blob/master/docker-tag-list.sh)
 Adding script `docker-tag-list.sh` which you can use to get list of available tags on all repositories.
 * Run script as `./docker-tag-list.sh -u username`  // Here I am assuming that you have authentication enabled for git repository.
