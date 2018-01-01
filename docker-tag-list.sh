@@ -20,9 +20,9 @@ echo -n Password:
 read -s passwd
 echo -e "\n"
 
-for Repo in `curl -s  -X GET https://$1:$passwd@test.docker.reg/v2/_catalog  | awk -F":" '{$1="";  print}' | sed -e 's/,/\n/g' -e 's/{\|}\|\[\|\]\|\"\|\ "//g'` ; \
+for Repo in `curl -s  -X GET https://$2:$passwd@test.docker.reg/v2/_catalog  | awk -F":" '{$1="";  print}' | sed -e 's/,/\n/g' -e 's/{\|}\|\[\|\]\|\"\|\ "//g'` ; \
 do
-        Tag=`curl -s -S "https://$1:$passwd@test.docker.reg/v2/$Repo/tags/list"  | \
+        Tag=`curl -s -S "https://$2:$passwd@test.docker.reg/v2/$Repo/tags/list"  | \
             sed -e 's/,"tags":/,\n/g' | \
             grep -v '"name"' | \
             sed -e 's/,/\n/g' -e 's/{\|}\|\[\|\]\|\ "\|\"//g'`
