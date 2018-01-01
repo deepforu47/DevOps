@@ -27,10 +27,6 @@ do
             grep -v '"name"' | \
             sed -e 's/,/\n/g' -e 's/{\|}\|\[\|\]\|\ "\|\"//g'`
 
-#       sed -e 's/,/,\n/g' | \
-#       grep '"tags"' | \
-#       awk -F":" '{$1="";  print}' | \
-#       sed -e 's/,/\n/g' -e 's/{\|}\|\[\|\]\|\ "\|\"//g'`
             echo -e "Tags List for Docker Repository $Repo:"
             echo  "${Tag}" |sed 's/^/---------> /' | nl
             echo -e "\n"
