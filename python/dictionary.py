@@ -1,5 +1,3 @@
-import json
-
 print ("\n Lets Play with Dictionary: ")
 #Lets make a phone book:
 
