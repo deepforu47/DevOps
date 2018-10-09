@@ -61,12 +61,13 @@ fi
 
 cat "$KEY_LOC" "$MY_CERT_LOC" > "$TRANSITFILE"
 
+# Create "pkcs12" format Keystore from our own Certificate and key
 echo -e "\n"
 openssl pkcs12 -export -passout "pass:$TMPPW" -in "$TRANSITFILE" -name etl-web > "$PKCS12FILE"
 
 /bin/rm "$TRANSITFILE"
 
-# Print out result for fun! Bug in doc (I think): "-pass " arg does not work, need "-passin"
+# Print out result!!
 
 openssl pkcs12 -passin "pass:$TMPPW" -passout "pass:$TMPPW" -in "$PKCS12FILE" -info
 
@@ -78,7 +79,7 @@ if [[ -f "$TARGET_KEYSTORE" ]]; then
   /bin/rm "$TARGET_KEYSTORE"
 fi
 
-### For You ##
+### Create truststore with certificate we got from Server Side ##
 YOUR_ALIAS=your_alias
 echo -e "Import YOUR cert to trusstore"
 keytool -import \
@@ -88,7 +89,7 @@ keytool -import \
    -keystore $TRUST_STORE \
    -file $YOUR_CERT
 
-## For ME
+## Convert "pkcs12" format Keystore to "jks" format
 keytool -importkeystore \
    -deststorepass  "$TARGET_STOREPW" \
    -destkeypass    "$TARGET_STOREPW" \
