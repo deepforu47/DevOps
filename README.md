@@ -1,4 +1,4 @@
-# Docker Related
+# Summary of incuded topics in this repository
 
 
 1. Display list of tags for all the repositories hosted on private docker registry.
@@ -53,6 +53,7 @@ Tags List for Docker Repository ubuntu:
    1. Create "PKCS#12" format Keystore from existing certificate and key. 
    2. Convert "PKCS#12" format Keystore to java keystore file.
    3. Create truststore with certificate we got from server side.
+   
    Execution Syntax: $sudo ./script.sh {PVT-KEY} {MY_CERT} {YOUR_CERT} {KEYSTORE_NAME} {TRUSTSTORE_NAME}
    
    
