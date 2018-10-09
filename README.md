@@ -47,7 +47,8 @@ Tags List for Docker Repository ubuntu:
  
    *Detail steps for deleting the repository from private docker registry*
         
-## 3. [Keystore and Trustore automation]
+## 3. [Keystore and Trustore automation](https://github.com/deepforu47/DevOps/blob/master/bash/keystore-conversion.sh)
+     
    This script will perform below stuff - 
    1. Create "PKCS#12" format Keystore from existing certificate and key. 
    2. Convert "PKCS#12" format Keystore to java keystore file.
