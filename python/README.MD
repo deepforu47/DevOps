@@ -1,5 +1,5 @@
 ## json2yaml ##
-'''
+```
 $ head debug-pod.json
 {
     "apiVersion": "v1",
@@ -23,4 +23,4 @@ metadata:
     confighash: dummy
     pod-template-hash: '1710058044'
     secrethash: dummy            
-'''
+```
