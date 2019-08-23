@@ -1,0 +1,81 @@
+properties([
+    parameters([
+        [$class: 'ChoiceParameter', 
+            choiceType: 'PT_SINGLE_SELECT', 
+            description: 'Select the Env Name from the Dropdown List', 
+            filterLength: 1, 
+            filterable: true, 
+            name: 'ENVIRONMENT', 
+            randomName: 'choice-parameter-Env', 
+            script: [
+                $class: 'GroovyScript', 
+                fallbackScript: [
+                    classpath: [], 
+                    sandbox: false, 
+                    script: 
+                        'return[\'Could not get ENVIRONMENT\']'
+                ], 
+                script: [
+                    classpath: [], 
+                    sandbox: false, 
+                    script: 
+                        'return["Dev","UAT","Prod"]'
+                ]
+            ]
+        ], 
+        [$class: 'CascadeChoiceParameter', 
+            choiceType: 'PT_SINGLE_SELECT', 
+            description: 'Select the Server from the Dropdown List', 
+            filterLength: 1, 
+            filterable: true, 
+            name: 'Server', 
+            randomName: 'choice-parameter-Server', 
+            referencedParameters: 'ENVIRONMENT', 
+            script: [
+                $class: 'GroovyScript', 
+                fallbackScript: [
+                    classpath: [], 
+                    sandbox: false, 
+                    script: 
+                        'return[\'Could not get Environment from Env Param\']'
+                ], 
+                script: [
+                    classpath: [], 
+                    sandbox: false, 
+                    script: 
+                        ''' if (ENVIRONMENT.equals("Dev")){
+                                return["Dev1","Dev2","Dev3","Dev4","Dev5","Dev6"]
+                            }
+                            else if(ENVIRONMENT.equals("UAT")){
+                                return["UAT1","UAT2","UAT3"]
+                            }
+                            else if(ENVIRONMENT.equals("Prod")){
+                                return["PROD1","PROD2","PROD3"]
+                            }
+                        '''
+                ]
+            ]
+        ]
+    ])
+])
+
+pipeline {
+  agent any
+  stages {
+        stage ("Print Parameters") {
+                steps {
+                script{
+                for (entry in params) {
+                        println entry.key +"=="+ entry.value
+                }
+                if (params.Server.equals("Could not get Environment from Env Param")) {
+                    echo "Must be the first build after Pipeline deployment.  Aborting the build"
+                    currentBuild.result = 'ABORTED'
+                    error('Stopping early…')
+                }
+                echo "Crossed param validation"
+                }
+                }
+            }
+  }
+}
