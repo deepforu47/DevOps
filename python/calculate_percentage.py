@@ -1,5 +1,10 @@
+__author__ = "Kuldeep Sharma"
+__license__ = "GPL"
+__version__ = "1.0.0"
+__maintainer__ = "Kuldeep Sharma"
+__status__ = "Production"
 import re
-with open("prometheusData.txt") as f:
+with open("prometheusData-android.txt") as f:
     # Fetch first 5 lines from file
     lines = [next(f) for x in range(5)]
 
