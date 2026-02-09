@@ -93,12 +93,7 @@ Back on the master node, check the status of all nodes:
     kubectl get nodes
     ```
 
-Expected output:
-    ```bash
-    NAME         STATUS   ROLES           AGE     VERSION
-    cks-master   Ready    control-plane   3m24s   v1.35.0
-    cks-worker   Ready    <none>          16s     v1.35.0
-    ```
+Expected output: Should be able to see 2 nodes
  
 ### K8S cluster installation has been using using Killer.sh Installation Scripts
 
