@@ -1,7 +1,7 @@
 variable "project_id" {
   description = "GCP project ID"
   type        = string
-  default = "burner-kulsharm2-01"
+  default = "demo"
 }
 
 variable "region" {
