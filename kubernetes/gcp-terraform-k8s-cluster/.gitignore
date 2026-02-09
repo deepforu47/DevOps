@@ -1,0 +1,34 @@
+ # Terraform state and backup files
+*.tfstate
+*.tfstate.*
+crash.log
+
+# .terraform directory (provider plugins, modules, etc.)
+.terraform/
+
+# Sensitive variable files
+*.tfvars
+*.tfvars.json
+
+# Local override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI history
+.terraformrc
+.terraform.d/
+
+# Editor and OS files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# GCP credentials (never commit service account keys)
+*.json
