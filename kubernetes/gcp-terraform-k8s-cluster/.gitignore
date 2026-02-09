@@ -33,4 +33,4 @@ override.tf.json
 # GCP credentials (never commit service account keys)
 *.json
 
-.terraform/
+.slingshot/
