@@ -39,6 +39,7 @@ variable "vm_startup_commands" {
       echo `kubeadm token create --print-join-command` >> /opt/vm1.log
       source <(kubectl completion bash) # setup autocomplete in bash into the current shell, bash-completion package should be installed first.
       echo "source <(kubectl completion bash)" >> ~/.bashrc # add autocomplete permanently to your bash shell.
+      source ~/.bashrc
       alias k=kubectl
       complete -F __start_kubectl k
     EOT
@@ -48,6 +49,7 @@ variable "vm_startup_commands" {
       bash <(curl -s https://raw.githubusercontent.com/killer-sh/cks-course-environment/master/cluster-setup/latest/install_worker.sh)
       source <(kubectl completion bash) # setup autocomplete in bash into the current shell, bash-completion package should be installed first.
       echo "source <(kubectl completion bash)" >> ~/.bashrc # add autocomplete permanently to your bash shell.
+      source ~/.bashrc
       alias k=kubectl
       complete -F __start_kubectl k
     EOT
