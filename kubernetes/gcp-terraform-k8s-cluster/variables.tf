@@ -28,6 +28,16 @@ variable "vm_names" {
     vm2 = "cks-worker"
   }
 }
+variable "provisioning_model" {
+  description = "Type of provisioning model. Allowed values: STANDARD or SPOT"
+  type        = string
+  default     = "STANDARD"
+
+  validation {
+    condition     = contains(["STANDARD", "SPOT"], var.provisioning_model)
+    error_message = "provisioning_model must be either STANDARD or SPOT."
+  }
+}
 variable "vm_startup_commands" {
   type = map(string)
   default = {
@@ -35,7 +45,7 @@ variable "vm_startup_commands" {
       #!/bin/bash
       echo "This runs only on cks-master" > /opt/vm1.log
       echo "kubeadm token create --print-join-command" >> /opt/vm1.log
-      bash <(curl -s https://raw.githubusercontent.com/killer-sh/cks-course-environment/master/cluster-setup/latest/install_master.sh)
+      bash <(curl -s https://raw.githubusercontent.com/killer-sh/cks-course-environment/master/cluster-setup/latest/install_master.sh) >> /opt/vm1.log
       echo `kubeadm token create --print-join-command` >> /opt/vm1.log
       source <(kubectl completion bash) # setup autocomplete in bash into the current shell, bash-completion package should be installed first.
       echo "source <(kubectl completion bash)" >> ~/.bashrc # add autocomplete permanently to your bash shell.
@@ -46,7 +56,7 @@ variable "vm_startup_commands" {
     vm2 = <<-EOT
       #!/bin/bash
       echo "This runs only on cks-worker" > /opt/vm2.log
-      bash <(curl -s https://raw.githubusercontent.com/killer-sh/cks-course-environment/master/cluster-setup/latest/install_worker.sh)
+      bash <(curl -s https://raw.githubusercontent.com/killer-sh/cks-course-environment/master/cluster-setup/latest/install_worker.sh) >> /opt/vm2.log
       source <(kubectl completion bash) # setup autocomplete in bash into the current shell, bash-completion package should be installed first.
       echo "source <(kubectl completion bash)" >> ~/.bashrc # add autocomplete permanently to your bash shell.
       source ~/.bashrc

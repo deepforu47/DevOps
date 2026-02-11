@@ -35,6 +35,12 @@ resource "google_compute_instance" "cks_vm" {
       type  = "pd-balanced"
     }
   }
+ scheduling {
+  provisioning_model  = var.provisioning_model
+
+  preemptible         = var.provisioning_model == "SPOT" ? true : false
+  automatic_restart   = var.provisioning_model == "SPOT" ? false : true
+}
 
   network_interface {
     network    = google_compute_network.cks_vpc.id
