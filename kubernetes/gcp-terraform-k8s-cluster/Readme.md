@@ -17,9 +17,11 @@ This guide walks you through authenticating with GCP, provisioning infrastructur
    Before running Terraform, authenticate your CLI session:
 
     ```bash
-    gcloud auth login
+    gcloud auth login  ## You as Human being run some gcloud command
     ```
-
+    ```bash
+    gcloud auth application-default login  ## Applications and SDKs (Terraform, Python, Go, Java, etc.)
+    ```
    This opens a browser for authentication. Ensure you select the correct GCP account.
 
 ## 4. Initialize and Deploy
