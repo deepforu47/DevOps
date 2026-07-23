@@ -14,6 +14,9 @@ trigger:
   paths:
     include:
       - azure-devops-demo/*
+    exclude:
+      - azure-devops-demo/README.md
+      - azure-devops-demo/.azure-pipelines/*
 
 variables:
   azureServiceConnection: 'webappdemo'
