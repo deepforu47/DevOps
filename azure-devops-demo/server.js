@@ -102,7 +102,7 @@ app.get('/', (req, res) => {
                 <div class="grid">
                     <div class="info-box">
                         <span class="label">App Version</span>
-                        <span class="value">v1.0.1</span>
+                        <span class="value">v1.0.0</span>
                     </div>
                     <div class="info-box">
                         <span class="label">Status</span>
