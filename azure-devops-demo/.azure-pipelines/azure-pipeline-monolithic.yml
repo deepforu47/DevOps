@@ -1,0 +1,93 @@
+# ====================================================================
+# DEMO STEP 1: PIPELINE WITHOUT TEMPLATES (Monolithic / Inline)
+# ====================================================================
+# Pain Points:
+# 1. Hardcoded, repetitive inline tasks across every microservice repository.
+# 2. Difficult to enforce enterprise security/compliance checks centrally.
+# 3. High maintenance overhead when changing Node versions or build steps.
+# ====================================================================
+
+trigger: none
+
+variables:
+  azureServiceConnection: 'webappdemo'
+  webAppName: 'demowebapp1'
+  nodeVersion: '18.x'
+  vmImageName: 'ubuntu-latest'
+
+stages:
+  # STAGE 1: BUILD & TEST
+  - stage: Build
+    displayName: 'Build Stage'
+    jobs:
+      - job: BuildJob
+        displayName: 'Build & Test Job'
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: UseNode@1
+            displayName: 'Install Node.js $(nodeVersion)'
+            inputs:
+              version: $(nodeVersion)
+
+          - script: |
+              npm ci
+            displayName: 'Install Dependencies'
+
+          - script: |
+              npm test
+            displayName: 'Run Tests'
+
+          - task: CopyFiles@2
+            displayName: 'Copy Application Files & Dependencies to Staging'
+            inputs:
+              SourceFolder: '$(System.DefaultWorkingDirectory)'
+              Contents: |
+                server.js
+                package.json
+                package-lock.json
+                node_modules/**
+              TargetFolder: '$(Build.ArtifactStagingDirectory)/staging'
+
+          - task: ArchiveFiles@2
+            displayName: 'Archive Zip Package'
+            inputs:
+              rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/staging'
+              includeRootFolder: false
+              archiveType: 'zip'
+              archiveFile: '$(Build.ArtifactStagingDirectory)/app-$(Build.BuildId).zip'
+
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Build Artifact'
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)/app-$(Build.BuildId).zip'
+              ArtifactName: 'drop'
+
+  # STAGE 2: DEPLOYMENT
+  - stage: Deploy
+    displayName: 'Deploy Stage'
+    dependsOn: Build
+    jobs:
+      - deployment: DeployWebApp
+        displayName: 'Deploy to Azure Web App'
+        environment: 'production'
+        pool:
+          vmImage: $(vmImageName)
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: DownloadBuildArtifacts@0
+                  inputs:
+                    buildType: 'current'
+                    artifactName: 'drop'
+                    downloadPath: '$(System.ArtifactsDirectory)'
+
+                - task: AzureWebApp@1
+                  displayName: 'Azure Web App Deploy'
+                  inputs:
+                    azureSubscription: '$(azureServiceConnection)'
+                    appType: 'webApp'
+                    appName: '$(webAppName)'
+                    package: '$(System.ArtifactsDirectory)/drop/app-$(Build.BuildId).zip'
+                    appSettings: '-SCM_DO_BUILD_DURING_DEPLOYMENT true'

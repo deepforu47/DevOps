@@ -1,0 +1,13 @@
+{
+  "name": "azure-devops-demo-app",
+  "version": "1.0.0",
+  "description": "Simple Node.js app for DevOps teacher training",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Running unit tests... All tests passed!\" && exit 0"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

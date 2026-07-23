@@ -1,0 +1,39 @@
+# Azure DevOps Pipeline (webappdemo - GitHub Version)
+# Consumes central pipeline templates from https://dev.azure.com/DCS2020/test/_git/templates
+
+resources:
+  repositories:
+    - repository: sharedTemplates
+      type: git
+      name: test/templates
+      ref: refs/heads/main
+
+trigger: none # Disabled automatic trigger
+
+variables:
+  azureServiceConnection: 'webappdemo'
+  webAppName: 'demowebapp1'
+  nodeVersion: '18.x'
+  vmImageName: 'ubuntu-latest'
+
+stages:
+  # 1. Build Stage
+  - stage: Build
+    displayName: 'Build Stage'
+    jobs:
+      - template: nodejs/build-template.yml@sharedTemplates
+        parameters:
+          nodeVersion: $(nodeVersion)
+          vmImage: $(vmImageName)
+          workingDirectory: '$(System.DefaultWorkingDirectory)/azure-devops-demo'
+
+  # 2. Deploy Stage (Targeting DEV deployment slot only)
+  - template: nodejs/advanced-deploy-template.yml@sharedTemplates
+    parameters:
+      environmentName: 'dev'
+      azureServiceConnection: $(azureServiceConnection)
+      webAppName: $(webAppName)
+      runSecurityScan: false
+      enableSlotSwap: true
+      slotName: 'dev'
+      vmImage: $(vmImageName)

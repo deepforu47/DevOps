@@ -1,0 +1,60 @@
+# ====================================================================
+# ADVANCED ENTERPRISE PIPELINE DEMO (GitHub Version)
+# ====================================================================
+
+parameters:
+  - name: targetEnv
+    displayName: 'Target Environment'
+    type: string
+    default: 'dev'
+    values:
+      - 'dev'
+      - 'staging'
+      - 'production'
+
+  - name: runSecurityAudit
+    displayName: 'Include NPM Vulnerability Audit'
+    type: boolean
+    default: true
+
+  - name: enableSlotSwap
+    displayName: 'Enable Zero-Downtime Deployment Slot Swap'
+    type: boolean
+    default: false
+
+resources:
+  repositories:
+    - repository: sharedTemplates
+      type: git
+      name: test/templates
+      ref: refs/heads/main
+
+trigger: none # Disabled automatic trigger
+
+variables:
+  azureServiceConnection: 'webappdemo'
+  webAppName: 'demowebapp1'
+  nodeVersion: '18.x'
+  vmImageName: 'ubuntu-latest'
+
+stages:
+  # STAGE 1: BUILD & TEST
+  - stage: Build
+    displayName: '📦 Build & Package Stage'
+    jobs:
+      - template: nodejs/build-template.yml@sharedTemplates
+        parameters:
+          nodeVersion: $(nodeVersion)
+          vmImage: $(vmImageName)
+          workingDirectory: '$(System.DefaultWorkingDirectory)/azure-devops-demo'
+
+  # STAGE 2: ADVANCED DEPLOYMENT
+  - template: nodejs/advanced-deploy-template.yml@sharedTemplates
+    parameters:
+      environmentName: ${{ parameters.targetEnv }}
+      azureServiceConnection: $(azureServiceConnection)
+      webAppName: $(webAppName)
+      runSecurityScan: ${{ parameters.runSecurityAudit }}
+      enableSlotSwap: ${{ parameters.enableSlotSwap }}
+      slotName: 'staging'
+      vmImage: $(vmImageName)
