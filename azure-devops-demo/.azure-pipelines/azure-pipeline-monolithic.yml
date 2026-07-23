@@ -1,5 +1,5 @@
 # ====================================================================
-# DEMO STEP 1: PIPELINE WITHOUT TEMPLATES (Monolithic / Inline)
+# DEMO STEP 1: PIPELINE WITHOUT TEMPLATES (Monolithic / Inline - GitHub Version)
 # ====================================================================
 # Pain Points:
 # 1. Hardcoded, repetitive inline tasks across every microservice repository.
@@ -7,7 +7,13 @@
 # 3. High maintenance overhead when changing Node versions or build steps.
 # ====================================================================
 
-trigger: none
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - azure-devops-demo/*
 
 variables:
   azureServiceConnection: 'webappdemo'
@@ -32,16 +38,18 @@ stages:
 
           - script: |
               npm ci
+            workingDirectory: '$(System.DefaultWorkingDirectory)/azure-devops-demo'
             displayName: 'Install Dependencies'
 
           - script: |
               npm test
+            workingDirectory: '$(System.DefaultWorkingDirectory)/azure-devops-demo'
             displayName: 'Run Tests'
 
           - task: CopyFiles@2
             displayName: 'Copy Application Files & Dependencies to Staging'
             inputs:
-              SourceFolder: '$(System.DefaultWorkingDirectory)'
+              SourceFolder: '$(System.DefaultWorkingDirectory)/azure-devops-demo'
               Contents: |
                 server.js
                 package.json
