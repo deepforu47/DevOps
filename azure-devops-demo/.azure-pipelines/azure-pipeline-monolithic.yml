@@ -7,16 +7,7 @@
 # 3. High maintenance overhead when changing Node versions or build steps.
 # ====================================================================
 
-trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - azure-devops-demo/*
-    exclude:
-      - azure-devops-demo/README.md
-      - azure-devops-demo/.azure-pipelines/*
+trigger: none # Disabled automatic trigger completely on GitHub
 
 variables:
   azureServiceConnection: 'webappdemo'
